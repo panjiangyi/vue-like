@@ -82,13 +82,17 @@ let CompileUtil = {
         let updateFn = this.updater['textUpdater'];
         // 文本比较特殊 expr可能是'{{message.a}} {{b}}'
         // 调用getTextVal方法去取到对应的结果
+        console.log('---- getTextVal start')
         let value = this.getTextVal(vm, expr);
+        console.log('---- getTextVal end')
         expr.replace(/\{\{([^}]+)\}\}/g, (...arguments) => {
+            console.log('-----------watch init start')
             new Watcher(vm, arguments[1], (newValue) => {
                 // 如果数据变化了，文本节点需要重新获取依赖的属性更新文本中的内容
                 updateFn && updateFn(node, this.getTextVal(vm, expr));
             });
         })
+        console.log('-----------watch init end')
         updateFn && updateFn(node, value)
     },
     getTextVal(vm, expr) { // 获取编译文本后的结果

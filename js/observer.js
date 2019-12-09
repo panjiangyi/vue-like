@@ -24,10 +24,12 @@ class Observer{
             enumerable:true,
             configurable:true,
             get(){ // 当取值时调用的方法
+            console.log(`get ${key}:`,Dep.target)
                 Dep.target&&dep.addSub(Dep.target);
                 return value;
             },
             set(newValue){ // 当给data属性中设置值的适合 更改获取的属性的值
+            console.log(`set ${key}:`,newValue)
                 if(newValue!=value){
                     // 这里的this不是实例 
                     that.observe(newValue);// 如果是设置的是对象继续劫持
