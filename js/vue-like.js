@@ -6,5 +6,6 @@ class MVVM {
     }
     init() {
         new Compiler(this.$el, this);
+        new Observer(this);
     }
 }

@@ -2,9 +2,10 @@
 <div id="app">
     <input type="text" v-model="message.a">
     <input v-model="c" />
-    {{message.a}} {{b}}
+    {{message.a}} {{b}} {{d}}
 </div>
 <script src="./js/compiler.js"></script>
+<script src="./js/Observer.js"></script>
 <script src="./js/vue-like.js"></script>
 <script>
     // 我们的数据一般都挂载在vm上
@@ -12,8 +13,9 @@
         el: '#app',
         data: {
             message: { a: 'j1111w' },
-            b: 'fuck',
-            c: "cc111cc"
+            b: 'holy shit',
+            c: "cc111cc",
+            d:'好好好'
         }
     })
 </script>
