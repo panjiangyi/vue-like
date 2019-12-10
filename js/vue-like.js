@@ -5,7 +5,7 @@ class MVVM {
         this.init()
     }
     init() {
-        new Compiler(this.$el, this);
         new Observer(this);
+        new Compiler(this.$el, this);
     }
 }

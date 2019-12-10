@@ -29,11 +29,24 @@ class Compiler {
         [...attrlist].forEach(({ name, value }) => {
             if (!this.isDetective(name)) return;
             const commander = name.replace('v-', '')
+            new Watcher(node, value, this.vm, () => {
+                utils[commander](node, this.getValueByExp(value))
+            });
             utils[commander](node, this.getValueByExp(value))
         })
     }
+    updateText(node, expr) {
+        node.textContent = expr.replace(/{{([^}]+)}}/g, (...k) => {
+            return this.getValueByExp(k[1])
+        })
+    }
     compileText(node) {
-        node.textContent = node.textContent.replace(/{{([^}]+)}}/g, (...k) => {
+        console.log('-123--', node.textContent)
+        const expr = node.textContent;
+        node.textContent = expr.replace(/{{([^}]+)}}/g, (...k) => {
+            new Watcher(node, k[1], this.vm, () => {
+                this.updateText(node, expr)
+            });
             return this.getValueByExp(k[1])
         })
     }

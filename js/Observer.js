@@ -11,10 +11,12 @@ class Observer {
             if (typeof value === 'object') {
                 this.transform(value)
             }
+            const dep = new Dep();
             Object.defineProperty(data, k, {
                 enumerable: true,
                 configurable: true,
                 get() {
+                    Dep.target && dep.add(Dep.target)
                     return value
                 },
                 set(v) {
@@ -22,7 +24,9 @@ class Observer {
                     if (typeof v === 'object') {
                         this.transform(v)
                     }
-                    return value = v;
+                    value = v;
+                    dep.publish();
+                    return value;
                 }
             })
         })
