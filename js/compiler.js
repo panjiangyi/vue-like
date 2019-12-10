@@ -24,6 +24,21 @@ class Compiler {
             return last[k]
         }, this.vm.$data)
     }
+    nodeInteractive(node, expr) {
+        node.addEventListener('input', (e) => {
+            const exprArr = expr.split('.');
+            const len = exprArr.length;
+            let idx = 0;
+            exprArr.reduce((last, k) => {
+                idx++
+                if (idx === len) {
+                    last[k] = e.target.value;
+                    return
+                }
+                return last[k]
+            }, this.vm.$data)
+        })
+    }
     compileNode(node) {
         const attrlist = node.attributes;
         [...attrlist].forEach(({ name, value }) => {
@@ -32,7 +47,8 @@ class Compiler {
             new Watcher(node, value, this.vm, () => {
                 utils[commander](node, this.getValueByExp(value))
             });
-            utils[commander](node, this.getValueByExp(value))
+            utils[commander](node, this.getValueByExp(value));
+            this.nodeInteractive(node, value)
         })
     }
     updateText(node, expr) {
@@ -41,7 +57,6 @@ class Compiler {
         })
     }
     compileText(node) {
-        console.log('-123--', node.textContent)
         const expr = node.textContent;
         node.textContent = expr.replace(/{{([^}]+)}}/g, (...k) => {
             new Watcher(node, k[1], this.vm, () => {
