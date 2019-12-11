@@ -1,4 +1,5 @@
-class Observer {
+import Dep from './Dep';
+export default class Observer {
     constructor(vm) {
         this.transform(vm.$data);
     }

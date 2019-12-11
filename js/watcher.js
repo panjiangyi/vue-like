@@ -1,4 +1,5 @@
-class Watcher {
+import Dep from './Dep';
+export default class Watcher {
     constructor(node, expr, vm, cb) {
         this.node = node;
         this.expr = expr;

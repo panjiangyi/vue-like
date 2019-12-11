@@ -2,22 +2,6 @@
 <div id="app">
     <input type="text" v-model="message.a">
     <input v-model="c" />
-    {{message.a}} {{b}} {{c}}
+    {{message.a}} {{b}} {{c}} {{d}}
 </div>
-<script src="./js/Dep.js"></script>
-<script src="./js/watcher.js"></script>
-<script src="./js/compiler.js"></script>
-<script src="./js/Observer.js"></script>
-<script src="./js/vue-like.js"></script>
-<script>
-    // 我们的数据一般都挂载在vm上
-    let vm = new MVVM({
-        el: '#app',
-        data: {
-            message: { a: 'j1111w' },
-            b: 'holy shit',
-            c: "cc111cc",
-            d:'好好好'
-        }
-    })
-</script>
+<script src="bundle.js"></script>

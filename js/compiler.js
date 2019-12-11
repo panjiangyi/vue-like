@@ -1,4 +1,6 @@
-class Compiler {
+import Dep from './Dep';
+import Watcher from './watcher';
+export default class Compiler {
     constructor(el, vm) {
         this.el = el;
         this.vm = vm;
