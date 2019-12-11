@@ -3,5 +3,12 @@
     <input type="text" v-model="message.a">
     <input v-model="e" />
     {{message.a}} {{b}} {{c}} {{d}} {{e}}
+    <div id='div1'>
+        {{message.a}}
+        <div id='div2'>
+            {{message.a}}
+            <input type="text" v-model="c">
+        </div>
+    </div>
 </div>
 <script src="bundle.js"></script>

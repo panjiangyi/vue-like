@@ -5,7 +5,7 @@ export default class Compiler {
         this.el = el;
         this.vm = vm;
         this.node2fragement()
-        this.compile()
+        this.compile(this.fragement.childNodes)
         this.el.append(this.fragement)
     }
     node2fragement() {
@@ -52,6 +52,8 @@ export default class Compiler {
             utils[commander](node, this.getValueByExp(value));
             this.nodeInteractive(node, value)
         })
+         // 递归处理node节点的子节点
+         this.compile(node.childNodes);
     }
     updateText(node, expr) {
         node.textContent = expr.replace(/{{([^}]+)}}/g, (...k) => {
@@ -67,8 +69,7 @@ export default class Compiler {
             return this.getValueByExp(k[1])
         })
     }
-    compile() {
-        const children = this.fragement.childNodes;
+    compile(children) {
         children.forEach(node => {
             if (this.isElementNode(node)) {
                 this.compileNode(node)
