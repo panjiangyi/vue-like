@@ -6,6 +6,8 @@ let vm = new MVVM({
         message: { a: 'j1111w' },
         b: 'holy shit',
         c: "cc111cc",
-        d: 'ddd11d'
+        d: 'ddd11d',
+        e:"eeee"
     }
 })
+window.vm = vm;
