@@ -1,4 +1,4 @@
-import MVVM from "./vue-like.js"
+import MVVM from "./MVVM.js"
 // 我们的数据一般都挂载在vm上
 let vm = new MVVM({
     el: '#app',
