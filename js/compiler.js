@@ -1,5 +1,6 @@
-import Dep from './Dep';
 import Watcher from './watcher';
+import Component from './Component';
+import { getGlobalComponents } from './vue-like';
 export default class Compiler {
     constructor(el, vm) {
         this.el = el;
@@ -11,7 +12,16 @@ export default class Compiler {
     node2fragement() {
         const fragement = this.fragement = document.createDocumentFragment();
         while (this.el.firstChild) {
-            fragement.append(this.el.firstChild)
+            const nodeName = this.el.firstChild.nodeName.toLowerCase();
+            const com = getGlobalComponents()[nodeName];
+            if (com) {
+                const componentOption = com;
+                const vm = new Component(componentOption);
+                fragement.append(vm.$el);
+                this.el.firstChild.parentNode.removeChild(this.el.firstChild)
+            } else {
+                fragement.append(this.el.firstChild)
+            }
         }
         return fragement
     }
@@ -52,8 +62,8 @@ export default class Compiler {
             utils[commander](node, this.getValueByExp(value));
             this.nodeInteractive(node, value)
         })
-         // 递归处理node节点的子节点
-         this.compile(node.childNodes);
+        // 递归处理node节点的子节点
+        this.compile(node.childNodes);
     }
     updateText(node, expr) {
         node.textContent = expr.replace(/{{([^}]+)}}/g, (...k) => {
