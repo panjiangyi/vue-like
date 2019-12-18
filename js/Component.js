@@ -6,11 +6,10 @@ export default class Component {
         if (typeof option.data === 'function') {
             this.$data = option.data();
         }
-        if (option.el != null) {
-            this.$el = document.querySelector(option.el);
-        }
         if (option.template != null) {
             this.$el = this.compileTemplate(option);
+        } else {
+            this.$el = document.querySelector(option.el);
         }
         this.proxyData();
         this.init()

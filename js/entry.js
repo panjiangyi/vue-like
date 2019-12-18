@@ -4,11 +4,12 @@ Vue.component('colorful-box', {
     template: `
     <div>
         <div>this is a {{color}} box {{e}}</div>
+        <colorful-box></colorful-box>
         <input v-model="color" />
     </div>
     `,
     data: function () {
-        return { color: 'red', e: 1 }
+        return { color: 'red', e: 999 }
     }
 })
 let vm = new Vue({
