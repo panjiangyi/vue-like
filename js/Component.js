@@ -3,6 +3,9 @@ import Compiler from './compiler';
 export default class Component {
     constructor(option) {
         this.$data = option.data
+        if (typeof option.data === 'function') {
+            this.$data = option.data();
+        }
         if (option.el != null) {
             this.$el = document.querySelector(option.el);
         }
@@ -12,11 +15,11 @@ export default class Component {
         this.proxyData();
         this.init()
     }
-    compileTemplate(option){
+    compileTemplate(option) {
         const tmpDiv = document.createElement('div');
         tmpDiv.innerHTML = option.template;
         const fragement = document.createDocumentFragment();
-        while(tmpDiv.firstChild){
+        while (tmpDiv.firstChild) {
             fragement.append(tmpDiv.firstChild)
         }
         return fragement

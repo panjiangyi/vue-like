@@ -52,7 +52,9 @@ export default class Compiler {
         })
     }
     compileNode(node) {
+        if (node.getAttribute('v') != null) return;
         const attrlist = node.attributes;
+        node.setAttribute('v', '');
         [...attrlist].forEach(({ name, value }) => {
             if (!this.isDetective(name)) return;
             const commander = name.replace('v-', '')
