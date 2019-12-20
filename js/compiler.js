@@ -71,15 +71,19 @@ export default class Compiler {
         })
     }
     compile(children) {
+        //bug：node被替换导致有的节点被跳过；
         children.forEach(node => {
+            console.log('一',node.nodeName)
             if (this.isCustomComponent(node)) {
+                console.log('二',node.nodeName, children)
                 const nodeName = node.nodeName.toLowerCase();
                 const comOption = getGlobalComponents()[nodeName];
-                if (idx < 21 && comOption != null) {
+                if (idx < 921 && comOption != null) {
                     idx++
                     const comVM = new Component(comOption);
                     node.replaceWith(comVM.compile());
                 }
+                console.log('三', children)
             } else if (this.isElementNode(node)) {
                 this.compileNode(node)
             } else {
