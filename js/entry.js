@@ -1,19 +1,29 @@
 import Vue from "./vue-like"
-// global component
-Vue.component('colorful-box', {
+Vue.component('colorful-div', {
     template: `
-    <div>
-        <div>this is a {{color}} box {{e}}</div>
-        <colorful-box></colorful-box>
-        <input v-model="color" />
-    </div>
+        <div>
+            {{color}}
+            <input v-model="color" />
+            <colorful-div />
+        </div>
     `,
-    data: function () {
-        return { color: 'red', e: 999 }
+    data() {
+        return {
+            color: 'red'
+        }
     }
 })
 let vm = new Vue({
     el: '#app',
+    template: `
+    <input id="input1" type="text" v-model="message.a">
+    <input id="input2" v-model="e" />
+    {{message.a}} {{b}} {{c}} {{d}} {{e}}
+    <div id='div1'>
+        {{message.a}}
+    </div>
+    <colorful-div />
+    `,
     data: {
         message: { a: 'j1111w' },
         b: 'holy shit',

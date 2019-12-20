@@ -6,13 +6,14 @@ export default class Component {
         if (typeof option.data === 'function') {
             this.$data = option.data();
         }
-        if (option.template != null) {
-            this.$el = this.compileTemplate(option);
-        } else {
-            this.$el = document.querySelector(option.el);
-        }
         this.proxyData();
-        this.init()
+        this.$template = this.compileTemplate(option);
+        new Observer(this);
+    }
+    compile() {
+        const compilerInstance = new Compiler(this.$template, this);
+        delete this.$template;
+        return compilerInstance.getCompiledFragement();
     }
     compileTemplate(option) {
         const tmpDiv = document.createElement('div');
@@ -22,10 +23,6 @@ export default class Component {
             fragement.append(tmpDiv.firstChild)
         }
         return fragement
-    }
-    init() {
-        new Observer(this);
-        new Compiler(this.$el, this);
     }
     proxyData() {
         Object.keys(this.$data).forEach(k => {

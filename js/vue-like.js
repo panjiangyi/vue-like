@@ -2,7 +2,7 @@ import Component from './Component';
 const globalComponents = {};
 export default class Vue {
     constructor(option) {
-        new Component(option);
+        document.querySelector(option.el).append(new Component(option).compile());
     }
     static component(name, option) {
         globalComponents[name] = option;
