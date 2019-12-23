@@ -71,25 +71,26 @@ export default class Compiler {
         })
     }
     compile(children) {
-        //bug：node被替换导致有的节点被跳过；
-        children.forEach(node => {
-            console.log('一',node.nodeName)
+        
+        for (let i = 0, len = children.length; i < len; i++) {
+            const node = children[i];
             if (this.isCustomComponent(node)) {
-                console.log('二',node.nodeName, children)
                 const nodeName = node.nodeName.toLowerCase();
                 const comOption = getGlobalComponents()[nodeName];
                 if (idx < 921 && comOption != null) {
                     idx++
-                    const comVM = new Component(comOption);
-                    node.replaceWith(comVM.compile());
+                    const comVMNodes = new Component(comOption).compile();
+                    const increasedLen = comVMNodes.childNodes.length;
+                    node.replaceWith(comVMNodes);
+                    i += increasedLen - 1;
+                    len += increasedLen - 1;
                 }
-                console.log('三', children)
             } else if (this.isElementNode(node)) {
                 this.compileNode(node)
             } else {
                 this.compileText(node)
             }
-        })
+        }
     }
 }
 

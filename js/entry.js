@@ -3,6 +3,7 @@ Vue.component('colorful-div', {
     template: `
         <div>
             {{color}}
+            <blue-div></blue-div>
             <input v-model="color" />
         </div>
     `,
