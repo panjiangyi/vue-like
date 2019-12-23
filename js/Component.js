@@ -2,7 +2,7 @@ import Observer from './Observer';
 import Compiler from './compiler';
 export default class Component {
     constructor(option) {
-        this.$data = option.data
+        this.$data = option.data;
         if (typeof option.data === 'function') {
             this.$data = option.data();
         }
