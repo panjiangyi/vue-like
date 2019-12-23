@@ -6,9 +6,22 @@ export default class Component {
         if (typeof option.data === 'function') {
             this.$data = option.data();
         }
+        this.initLifeCircle(option);
         this.proxyData();
         this.$template = this.compileTemplate(option);
         new Observer(this);
+        this.created()
+    }
+    initLifeCircle(option) {
+        [
+            'created',
+            'beforeMounted',
+            'mounted',
+            'beforeUpdate',
+            'updated',
+            'beforeDestory',
+            'destoryed',
+        ].forEach(k => this[k] = option[k] || (() => { }))
     }
     compile() {
         const compilerInstance = new Compiler(this.$template, this);

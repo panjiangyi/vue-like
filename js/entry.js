@@ -11,19 +11,35 @@ Vue.component('colorful-div', {
         return {
             color: 'red'
         }
+    },
+    beforeCreated() {
+        console.log('colurful-div befroeCreated')
     }
 })
 
 Vue.component('blue-div', {
     template: `
         <div style="color:blue">
-            {{color}}
+            {{color}}:{{idx}}
         </div>
     `,
     data() {
         return {
-            color: 'blue'
+            color: 'blue',
+            idx: 0
         }
+    },
+    mounted() {
+        console.log('blue-dev mounted', this)
+        setInterval(() => {
+            this.idx++;
+        }, 500);
+    },
+    beforeUpdate(){
+        console.log('blue-div before update',arguments)
+    },
+    updated(oldV, newV) {
+        console.log(oldV, newV);
     }
 })
 

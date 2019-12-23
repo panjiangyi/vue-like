@@ -71,7 +71,7 @@ export default class Compiler {
         })
     }
     compile(children) {
-        
+        // forEach to loop children cause some node been skipped. loop by for to maniplate the i and len to solve this bug.
         for (let i = 0, len = children.length; i < len; i++) {
             const node = children[i];
             if (this.isCustomComponent(node)) {
@@ -79,9 +79,14 @@ export default class Compiler {
                 const comOption = getGlobalComponents()[nodeName];
                 if (idx < 921 && comOption != null) {
                     idx++
-                    const comVMNodes = new Component(comOption).compile();
+                    comOption.beforeCreated && comOption.beforeCreated();
+                    const comVm = new Component(comOption);
+                    comVm.created();
+                    const comVMNodes = comVm.compile();
+                    comVm.beforeMounted();
                     const increasedLen = comVMNodes.childNodes.length;
                     node.replaceWith(comVMNodes);
+                    comVm.mounted();
                     i += increasedLen - 1;
                     len += increasedLen - 1;
                 }

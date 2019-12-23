@@ -1,9 +1,9 @@
 import Dep from './Dep';
 export default class Observer {
     constructor(vm) {
-        this.transform(vm.$data);
+        this.transform(vm.$data, vm);
     }
-    transform(data) {
+    transform(data, vm) {
         if (!data || typeof data !== 'object') {
             return;
         }
@@ -20,13 +20,16 @@ export default class Observer {
                     Dep.target && dep.add(Dep.target)
                     return value
                 },
-                set(v) {
-                    if (v === value) return;
-                    if (typeof v === 'object') {
-                        this.transform(v)
+                set(newValue) {
+                    const oldValue = value;
+                    vm.beforeUpdate.call(vm, oldValue, newValue)
+                    if (newValue === value) return;
+                    if (typeof newValue === 'object') {
+                        this.transform(newValue)
                     }
-                    value = v;
+                    value = newValue;
                     dep.publish();
+                    vm.updated.call(vm, oldValue, newValue);
                     return value;
                 }
             })
