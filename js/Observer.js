@@ -10,7 +10,7 @@ export default class Observer {
         Object.keys(data).forEach(k => {
             let value = data[k]
             if (typeof value === 'object') {
-                this.transform(value)
+                this.transform(value, vm)
             }
             const dep = new Dep();
             Object.defineProperty(data, k, {
@@ -25,7 +25,7 @@ export default class Observer {
                     vm.beforeUpdate.call(vm, oldValue, newValue)
                     if (newValue === value) return;
                     if (typeof newValue === 'object') {
-                        this.transform(newValue)
+                        this.transform(newValue, vm)
                     }
                     value = newValue;
                     dep.publish();
