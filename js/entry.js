@@ -3,17 +3,20 @@ Vue.component('colorful-div', {
     template: `
         <div>
             {{color}}
-            <blue-div></blue-div>
+            <blue-div v-if="show"></blue-div>
             <input v-model="color" />
         </div>
     `,
     data() {
         return {
-            color: 'red'
+            color: 'red',
+            show: false,
         }
     },
-    beforeCreated() {
-        console.log('colurful-div befroeCreated')
+    mounted() {
+        setInterval(() => {
+            this.show = !this.show;
+        }, 1500);
     }
 })
 
@@ -30,17 +33,10 @@ Vue.component('blue-div', {
         }
     },
     mounted() {
-        console.log('blue-dev mounted', this)
-        setInterval(() => {
+        setTimeout(() => {
             this.idx++;
         }, 500);
     },
-    beforeUpdate(){
-        console.log('blue-div before update',arguments)
-    },
-    updated(oldV, newV) {
-        console.log(oldV, newV);
-    }
 })
 
 let vm = new Vue({
@@ -48,8 +44,8 @@ let vm = new Vue({
     template: `
     <div>
         <input id="input1" type="text" v-model="message.a">
-        <input id="input2" v-model="e" />
-        {{message.a}} {{b}} {{c}} {{d}} {{e}}
+        <input id="input2" v-model="b" />
+        {{message.a}} - {{b}}
         <div id='div1'>
             {{message.a}}
         </div>
@@ -60,9 +56,6 @@ let vm = new Vue({
     data: {
         message: { a: 'j1111w' },
         b: 'holy shit',
-        c: "cc111cc",
-        d: 'ddd11d',
-        e: "eeee"
     }
 })
 window.vm = vm;

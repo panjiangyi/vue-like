@@ -40,10 +40,9 @@ export default class Compiler {
             }, this.vm.$data)
         })
     }
-    compileNode(node) {
-        if (node.getAttribute('v') != null) return;
-        node.setAttribute('v', '');
+    compileAttributes(node) {
         const attrlist = node.attributes;
+        if (attrlist == null) return;
         [...attrlist].forEach(({ name, value }) => {
             if (!this.isDetective(name)) return;
             const commander = name.replace('v-', '')
@@ -53,6 +52,39 @@ export default class Compiler {
             utils[commander](node, this.getValueByExp(value));
             this.nodeInteractive(node, value)
         })
+    }
+    compileComponentAttributes(node, childNodes) {
+        const attrlist = node.attributes;
+        if (attrlist == null) return;
+        // ignore text nodex before and after the root node of components;
+        const targetNode = childNodes[1];
+        [...attrlist].forEach(({ name, value }) => {
+            targetNode.setAttribute(name, value);
+        })
+        this.compileAttributes(targetNode)
+    }
+    compileComponent(node) {
+        const nodeName = node.nodeName.toLowerCase();
+        const comOption = getGlobalComponents()[nodeName];
+        if (idx < 10 && comOption != null) {
+            idx++
+
+            comOption.beforeCreated && comOption.beforeCreated();
+            const comVm = new Component(comOption);
+            comVm.created();
+            const comVMNodes = comVm.compile();
+            comVm.beforeMounted();
+            const increasedLen = comVMNodes.childNodes.length;
+            this.compileComponentAttributes(node, comVMNodes.childNodes)
+            node.replaceWith(comVMNodes);
+            comVm.mounted();
+            return increasedLen
+        }
+    }
+    compileNode(node) {
+        if (node.getAttribute('v') != null) return;
+        node.setAttribute('v', '');
+        this.compileAttributes(node)
         // 递归处理node节点的子节点
         this.compile(node.childNodes);
     }
@@ -75,21 +107,9 @@ export default class Compiler {
         for (let i = 0, len = children.length; i < len; i++) {
             const node = children[i];
             if (this.isCustomComponent(node)) {
-                const nodeName = node.nodeName.toLowerCase();
-                const comOption = getGlobalComponents()[nodeName];
-                if (idx < 921 && comOption != null) {
-                    idx++
-                    comOption.beforeCreated && comOption.beforeCreated();
-                    const comVm = new Component(comOption);
-                    comVm.created();
-                    const comVMNodes = comVm.compile();
-                    comVm.beforeMounted();
-                    const increasedLen = comVMNodes.childNodes.length;
-                    node.replaceWith(comVMNodes);
-                    comVm.mounted();
-                    i += increasedLen - 1;
-                    len += increasedLen - 1;
-                }
+                const increasedLen = this.compileComponent(node) - 1;
+                i += increasedLen;
+                len += increasedLen;
             } else if (this.isElementNode(node)) {
                 this.compileNode(node)
             } else {
@@ -102,5 +122,12 @@ export default class Compiler {
 const utils = {
     model(node, value) {
         node.value = value;
+    },
+    if(node, bl) {
+        if (bl) {
+            node.style.display = 'block';
+        } else {
+            node.style.display = 'none';
+        }
     }
 }
