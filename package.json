@@ -1,7 +1,7 @@
 {
-  "name": "vue-like",
+  "name": "wue-like",
   "version": "1.0.0",
-  "description": "create a vue-like for practicing",
+  "description": "create a wue-like for practicing",
   "main": "./js/entry",
   "scripts": {
     "start": "webpack-dev-server --entry ./js/entry.js --o bundle.js;"

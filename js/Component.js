@@ -23,7 +23,7 @@ export default class Component {
             'destoryed',
         ].forEach(k => this[k] = option[k] || (() => { }))
     }
-    compile() {
+    render() {
         const compilerInstance = new Compiler(this.$template, this);
         delete this.$template;
         return compilerInstance.getCompiledFragement();

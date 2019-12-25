@@ -1,6 +1,6 @@
 import Watcher from './watcher';
 import Component from './Component';
-import { getGlobalComponents } from './vue-like';
+import { getGlobalComponents } from './wue';
 let idx = 0; //临时禁止过多嵌套
 export default class Compiler {
     constructor(fragement, vm) {
@@ -72,7 +72,7 @@ export default class Compiler {
             comOption.beforeCreated && comOption.beforeCreated();
             const comVm = new Component(comOption);
             comVm.created();
-            const comVMNodes = comVm.compile();
+            const comVMNodes = comVm.render();
             comVm.beforeMounted();
             const increasedLen = comVMNodes.childNodes.length;
             this.compileComponentAttributes(node, comVMNodes.childNodes)
@@ -123,11 +123,14 @@ const utils = {
     model(node, value) {
         node.value = value;
     },
-    if(node, bl) {
+    show(node, bl) {
         if (bl) {
             node.style.display = 'block';
         } else {
             node.style.display = 'none';
         }
+    },
+    if(node, bl) {
+        return bl;
     }
 }

@@ -1,5 +1,5 @@
-import Vue from "./vue-like"
-Vue.component('colorful-div', {
+import wue from "./wue"
+wue.component('colorful-div', {
     template: `
         <div>
             {{color}}
@@ -20,7 +20,7 @@ Vue.component('colorful-div', {
     }
 })
 
-Vue.component('blue-div', {
+wue.component('blue-div', {
     template: `
         <div style="color:blue">
             {{color}}:{{idx}}
@@ -39,7 +39,7 @@ Vue.component('blue-div', {
     },
 })
 
-let vm = new Vue({
+let vm = new wue({
     el: '#app',
     template: `
     <div>
@@ -59,4 +59,4 @@ let vm = new Vue({
     }
 })
 window.vm = vm;
-window.Vue = Vue;
+window.wue = wue;
