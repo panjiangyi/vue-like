@@ -39,8 +39,10 @@ export default class Component extends componentTree {
     }
     render() {
         const compilerInstance = new Compiler(this.$template, this);
-        delete this.$template;
-        return compilerInstance.getCompiledFragement();
+        const dom = compilerInstance.getCompiledFragement();
+        //root dom of current component
+        this.$el = dom.children[0];
+        return dom
     }
     compileTemplate(option) {
         const tmpDiv = document.createElement('div');
