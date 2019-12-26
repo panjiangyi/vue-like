@@ -87,8 +87,6 @@ export default class Compiler {
         }
     }
     compileNode(node) {
-        if (node.getAttribute('v') != null) return;
-        node.setAttribute('v', '');
         this.compileAttributes(node)
         // 递归处理node节点的子节点
         this.compile(node.childNodes);

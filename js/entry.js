@@ -24,6 +24,7 @@ wue.component('blue-div', {
     template: `
         <div style="color:blue">
             {{color}}:{{idx}}
+            <colorful-div> </colorful-div>
         </div>
     `,
     data() {
