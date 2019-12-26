@@ -69,8 +69,13 @@ export default class Compiler {
         if (idx < 10 && comOption != null) {
             idx++
 
+            // create sub-component, invoke lifecircle methods, push sub-component to father's children array.
             comOption.beforeCreated && comOption.beforeCreated();
             const comVm = new Component(comOption);
+
+            // add new component to father's children array;
+            this.vm.addChild(comVm);
+            
             comVm.created();
             const comVMNodes = comVm.render();
             comVm.beforeMounted();

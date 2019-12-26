@@ -1,7 +1,21 @@
 import Observer from './Observer';
 import Compiler from './compiler';
-export default class Component {
+class componentTree {
+    constructor(){
+        this.$children = [];
+    }
+    addChild(child){
+        this.$children.push(child);
+    }
+}
+let vid = 0;
+export default class Component extends componentTree {
     constructor(option) {
+        super();
+
+        // unique id for each component;
+        this.$vid = vid++;
+
         this.$data = option.data;
         if (typeof option.data === 'function') {
             this.$data = option.data();
