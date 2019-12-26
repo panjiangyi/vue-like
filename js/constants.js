@@ -1,0 +1,1 @@
+export const RE_RENDER = 'rerender';
