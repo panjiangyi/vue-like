@@ -38,6 +38,10 @@ export default class emitor {
     }
 
     $emit(event, ...args) {
+        // bubble event up
+        if (this.$parent){
+            this.$parent.$emit(event, ...args);
+        }
         if (this.pool[event] == null) return;
         this.pool[event].forEach(cb => cb(...args));
     }
