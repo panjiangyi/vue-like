@@ -1,10 +1,13 @@
 import Observer from './Observer';
 import Compiler from './compiler';
-class componentTree {
-    constructor(){
+import emitor from './emitor';
+class componentTree extends emitor {
+    constructor() {
+        super()
         this.$children = [];
+        this.$parent = null;
     }
-    addChild(child){
+    addChild(child) {
         this.$children.push(child);
     }
 }
@@ -38,10 +41,12 @@ export default class Component extends componentTree {
         ].forEach(k => this[k] = option[k] || (() => { }))
     }
     render() {
+        // TBD: this.$template can only consumed once, when re-render this.$template has already been null.
         const compilerInstance = new Compiler(this.$template, this);
         const dom = compilerInstance.getCompiledFragement();
         //root dom of current component
         this.$el = dom.children[0];
+        
         return dom
     }
     compileTemplate(option) {
