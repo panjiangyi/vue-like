@@ -47,9 +47,9 @@ export default class Compiler {
             if (!this.isDetective(name)) return;
             const commander = name.replace('v-', '')
             new Watcher(node, value, this.vm, () => {
-                utils[commander](node, this.getValueByExp(value))
+                utils[commander].call(this, node, this.getValueByExp(value))
             });
-            utils[commander](node, this.getValueByExp(value));
+            utils[commander].call(this, node, this.getValueByExp(value));
             this.nodeInteractive(node, value)
         })
     }
@@ -73,9 +73,12 @@ export default class Compiler {
             comOption.beforeCreated && comOption.beforeCreated();
             const comVm = new Component(comOption);
 
+            // specify component's father;
+            comVm.$parent = this.vm;
+
             // add new component to father's children array;
             this.vm.addChild(comVm);
-            
+
             comVm.created();
             const comVMNodes = comVm.render();
             comVm.beforeMounted();
@@ -134,6 +137,9 @@ const utils = {
         }
     },
     if(node, bl) {
+        this.vm.$emit('rerender')
+        console.log('start')
+        this.vm.render();
         return bl;
     }
 }
